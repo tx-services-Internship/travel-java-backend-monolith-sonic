@@ -26,8 +26,8 @@ jobs:
       run: docker build -t $DOCKERHUB_REPO:latest -t $DOCKERHUB_REPO:${GITHUB_SHA::8} .
     - name: Publish Docker image
       run: docker push $DOCKERHUB_REPO
-  deploy:
-    name: Deploy docker image
+  # deploy:
+    # name: Deploy docker image
     # runs-on: ubuntu-latest
     # needs: build
     # steps:
