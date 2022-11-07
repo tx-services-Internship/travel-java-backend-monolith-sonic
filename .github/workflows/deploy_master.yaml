@@ -42,7 +42,7 @@ jobs:
     - uses: actions/download-artifact@v1
       with:
           name: jar-artifact
-          path: target/        
+          path: travel/target/        
     - name: Build Docker image
       run: docker build -t $DOCKERHUB_REPO:latest -t $DOCKERHUB_REPO:${GITHUB_SHA::8} .      
     - name: Login to Docker Hub
