@@ -33,8 +33,8 @@ public class DailyAllowance {
 
         @NotBlank
         @Setter
-        @Getter
-        private double amount;
+        @Getter //7, 6
+        private double amount; //big decimal
 
         public DailyAllowance() {}
 
