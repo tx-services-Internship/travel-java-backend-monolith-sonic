@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DailyAllowanceResponse {
 
-  private final UUID id;
+  private final Long id;
   private final String region;
   private final double amount;
 
-  public DailyAllowanceResponse(UUID id, String region, double amount) {
+  public DailyAllowanceResponse(Long id, String region, double amount) {
     this.region = region;
     this.amount = amount;
     this.id = id;

@@ -1,31 +1,46 @@
 package com.tx.travel.mapper;
 
 import com.tx.travel.model.DailyAllowance;
+import com.tx.travel.payload.request.DailyAllowanceRequest;
 import com.tx.travel.payload.response.DailyAllowanceResponse;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 public class DailyAllowanceMapper {
     public DailyAllowance mapDailyAllowanceResponseToDailyAllowance(DailyAllowanceResponse dailyAllowanceResponse){
 
-        return new DailyAllowance().builder()
+        return DailyAllowance.builder()
                 .id(dailyAllowanceResponse.getId())
                 .amount(dailyAllowanceResponse.getAmount())
                 .region(dailyAllowanceResponse.getRegion())
                 .build();
     }
 
+    public DailyAllowance mapDailyAllowanceRequestToDailyAllowance(DailyAllowanceRequest dailyAllowanceRequest){
 
+        return DailyAllowance.builder()
+                //.id()
+                .amount(dailyAllowanceRequest.getAmount())
+                .region(dailyAllowanceRequest.getRegion())
+                .build();
+    }
 
     public DailyAllowanceResponse mapDailyAllowanceToDailyAllowanceResponse(DailyAllowance dailyAllowance){
 
-        return new DailyAllowanceResponse().builder()
+        return DailyAllowanceResponse.builder()
                 .id(dailyAllowance.getId())
+                .amount(dailyAllowance.getAmount())
+                .region(dailyAllowance.getRegion())
+                .build();
+    }
+
+    public DailyAllowanceRequest mapDailyAllowanceToDailyAllowanceRequest(DailyAllowance dailyAllowance){
+
+        return DailyAllowanceRequest.builder()
                 .amount(dailyAllowance.getAmount())
                 .region(dailyAllowance.getRegion())
                 .build();

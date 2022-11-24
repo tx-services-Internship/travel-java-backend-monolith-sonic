@@ -1,5 +1,6 @@
 package com.tx.travel.controller;
 
+import com.tx.travel.payload.request.DailyAllowanceRequest;
 import com.tx.travel.payload.response.DailyAllowanceResponse;
 import com.tx.travel.payload.response.MessageResponse;
 import com.tx.travel.service.DailyAllowanceService;
@@ -64,8 +65,7 @@ public class DailyAllowanceController {
     }
 
     @PostMapping
-    @PreAuthorize(
-            "hasRole('ROLE_EMPLOYEE') or hasRole('ROLE_OFFICE_MANAGER') or hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_EMPLOYEE') or hasRole('ROLE_OFFICE_MANAGER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> createDailyAllowance(@RequestBody DailyAllowanceResponse dailyAllowanceResponse) {
         try{
             dailyAllowanceService.addDailyAllowance(dailyAllowanceResponse);
@@ -77,9 +77,9 @@ public class DailyAllowanceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DailyAllowanceResponse> updateDailyAllowance(@RequestBody DailyAllowanceResponse newDailyAllowanceInfo, @PathVariable Long id){
+    public ResponseEntity<DailyAllowanceRequest> updateDailyAllowance(@RequestBody DailyAllowanceRequest newDailyAllowanceInfo, @PathVariable Long id){
 
-        DailyAllowanceResponse updatedDailyAllowance;
+        DailyAllowanceRequest updatedDailyAllowance;
 
         updatedDailyAllowance = dailyAllowanceService.updateDailyAllowance(newDailyAllowanceInfo, id);
 

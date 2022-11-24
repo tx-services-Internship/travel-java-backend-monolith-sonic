@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class DailyAllowance {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Getter
-        private UUID id;
+        private Long id;
 
         @NotBlank
         @Size(max = 100)
@@ -28,7 +29,7 @@ public class DailyAllowance {
         @Getter
         private String region;
 
-        @NotBlank
+        @NotNull
         @Setter
         @Getter //7, 6
         private double amount; //big decimal
@@ -40,7 +41,7 @@ public class DailyAllowance {
             this.amount = amount;
         }
 
-        public DailyAllowance(UUID id, String region, double amount) {
+        public DailyAllowance(Long id, String region, double amount) {
                 this.region = region;
                 this.amount = amount;
                 this.id = id;

@@ -2,6 +2,7 @@ package com.tx.travel.service;
 
 import com.tx.travel.mapper.DailyAllowanceMapper;
 import com.tx.travel.model.DailyAllowance;
+import com.tx.travel.payload.request.DailyAllowanceRequest;
 import com.tx.travel.payload.response.DailyAllowanceResponse;
 import com.tx.travel.repository.DailyAllowanceRepository;
 import com.tx.travel.service.exception.DailyAllowanceNotFoundException;
@@ -74,11 +75,11 @@ public class DailyAllowanceService {
         }
     }
 
-    public DailyAllowanceResponse updateDailyAllowance(final DailyAllowanceResponse newDailyAllowanceInfo, final Long id) throws RegionAlreadyExistsException {
-        DailyAllowance da = dailyAllowanceMapper.mapDailyAllowanceResponseToDailyAllowance(newDailyAllowanceInfo);
+    public DailyAllowanceRequest updateDailyAllowance(final DailyAllowanceRequest newDailyAllowanceInfo, final Long id) throws RegionAlreadyExistsException {
+        DailyAllowance da = dailyAllowanceMapper.mapDailyAllowanceRequestToDailyAllowance(newDailyAllowanceInfo);
 
         dailyAllowanceRepository.save(da);
 
-        return dailyAllowanceMapper.mapDailyAllowanceToDailyAllowanceResponse(da);
+        return dailyAllowanceMapper.mapDailyAllowanceToDailyAllowanceRequest(da);
     }
 }
