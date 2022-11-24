@@ -8,7 +8,6 @@ import com.tx.travel.service.exception.DailyAllowanceNotFoundException;
 import com.tx.travel.service.exception.RegionAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -50,8 +49,6 @@ public class DailyAllowanceController {
     }
 
     @GetMapping("/search")
-    @PreAuthorize(
-            "hasRole('ROLE_EMPLOYEE') or hasRole('ROLE_OFFICE_MANAGER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<DailyAllowanceResponse> getDailyAllowanceByRegion(@RequestParam String region) {
 
         DailyAllowanceResponse dailyAllowance;
@@ -65,7 +62,6 @@ public class DailyAllowanceController {
     }
 
     @PostMapping
-    //@PreAuthorize("hasRole('ROLE_EMPLOYEE') or hasRole('ROLE_OFFICE_MANAGER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> createDailyAllowance(@RequestBody DailyAllowanceResponse dailyAllowanceResponse) {
         try{
             dailyAllowanceService.addDailyAllowance(dailyAllowanceResponse);

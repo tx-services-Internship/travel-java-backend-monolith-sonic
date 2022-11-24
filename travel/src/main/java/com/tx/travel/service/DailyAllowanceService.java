@@ -19,9 +19,6 @@ public class DailyAllowanceService {
 
     private final DailyAllowanceMapper dailyAllowanceMapper;
     private final DailyAllowanceRepository dailyAllowanceRepository;
-    private final List<DailyAllowance> dailyAllowances = new CopyOnWriteArrayList<>();
-
-    //public static final String ERROR_REGION_NOT_FOUND = "Error: Region is not found.";
 
     public DailyAllowanceService(final DailyAllowanceRepository dailyAllowanceRepository, final DailyAllowanceMapper dailyAllowanceMapper) {
         this.dailyAllowanceMapper = dailyAllowanceMapper;
@@ -31,8 +28,8 @@ public class DailyAllowanceService {
     public List<DailyAllowanceResponse> getAllDailyAllowances() {
         List<DailyAllowanceResponse> dailyAllowanceResponses = new CopyOnWriteArrayList<>();
 
-        for (DailyAllowance s : dailyAllowanceRepository.findAll()) {
-            dailyAllowanceResponses.add(dailyAllowanceMapper.mapDailyAllowanceToDailyAllowanceResponse(s));
+        for (DailyAllowance da: dailyAllowanceRepository.findAll()) {
+            dailyAllowanceResponses.add(dailyAllowanceMapper.mapDailyAllowanceToDailyAllowanceResponse(da));
         }
 
         return dailyAllowanceResponses;
@@ -75,11 +72,19 @@ public class DailyAllowanceService {
         }
     }
 
-    public DailyAllowanceRequest updateDailyAllowance(final DailyAllowanceRequest newDailyAllowanceInfo, final Long id) throws RegionAlreadyExistsException {
-        DailyAllowance da = dailyAllowanceMapper.mapDailyAllowanceRequestToDailyAllowance(newDailyAllowanceInfo);
+    public DailyAllowanceRequest updateDailyAllowance(final DailyAllowanceRequest newDailyAllowanceInfo, final Long id) {
 
-        dailyAllowanceRepository.save(da);
+        DailyAllowance daNew = dailyAllowanceMapper.mapDailyAllowanceRequestToDailyAllowance(newDailyAllowanceInfo);
 
-        return dailyAllowanceMapper.mapDailyAllowanceToDailyAllowanceRequest(da);
+        Optional<DailyAllowance> dailyAllowance = dailyAllowanceRepository.findByRegion(newDailyAllowanceInfo.getRegion());
+
+        if(dailyAllowance.isPresent()){
+            DailyAllowance dailyAllowanceOld = dailyAllowance.get();
+            dailyAllowanceOld.setAmount(newDailyAllowanceInfo.getAmount());
+            dailyAllowanceRepository.save(dailyAllowanceOld);
+        }else {
+            throw new DailyAllowanceNotFoundException(newDailyAllowanceInfo.getRegion());
+        }
+        return dailyAllowanceMapper.mapDailyAllowanceToDailyAllowanceRequest(daNew);
     }
 }
