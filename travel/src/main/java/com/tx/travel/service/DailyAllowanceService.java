@@ -11,6 +11,7 @@ import com.tx.travel.service.exception.DailyAllowanceNotFoundException;
 import com.tx.travel.service.exception.RegionAlreadyExistsException;
 import com.tx.travel.service.exception.UsernameAlreadyExistsException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Service
 public class DailyAllowanceService {
 
     private final DailyAllowanceMapper dailyAllowanceMapper;

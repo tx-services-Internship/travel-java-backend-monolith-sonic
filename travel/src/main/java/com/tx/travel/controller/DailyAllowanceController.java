@@ -1,12 +1,10 @@
 package com.tx.travel.controller;
 
-import com.tx.travel.model.DailyAllowance;
 import com.tx.travel.payload.response.DailyAllowanceResponse;
 import com.tx.travel.payload.response.MessageResponse;
 import com.tx.travel.service.DailyAllowanceService;
 import com.tx.travel.service.exception.DailyAllowanceNotFoundException;
 import com.tx.travel.service.exception.RegionAlreadyExistsException;
-import com.tx.travel.service.exception.UsernameAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,8 +25,7 @@ public class DailyAllowanceController {
     }
 
     @GetMapping
-    @PreAuthorize(
-            "hasRole('ROLE_EMPLOYEE') or hasRole('ROLE_OFFICE_MANAGER') or hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_EMPLOYEE') or hasRole('ROLE_OFFICE_MANAGER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<DailyAllowanceResponse>> getDailyAllowances() {
 
         List<DailyAllowanceResponse> dailyAllowances = dailyAllowanceService.getAllDailyAllowances();
@@ -37,7 +34,7 @@ public class DailyAllowanceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getStudentByID(@PathVariable Long id) {
+    public ResponseEntity<?> getDailyAllowanceByID(@PathVariable Long id) {
 
         DailyAllowanceResponse dailyAllowance;
 
