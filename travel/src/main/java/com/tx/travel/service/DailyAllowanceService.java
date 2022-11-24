@@ -10,6 +10,7 @@ import com.tx.travel.repository.UserRepository;
 import com.tx.travel.service.exception.DailyAllowanceNotFoundException;
 import com.tx.travel.service.exception.RegionAlreadyExistsException;
 import com.tx.travel.service.exception.UsernameAlreadyExistsException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -40,17 +41,21 @@ public class DailyAllowanceService {
         return dailyAllowanceResponses;
     }
 
-    public Long findByRegion(@NotNull final String region)
-            throws RegionAlreadyExistsException {
-        final Optional<DailyAllowance> dailyAllowanceByRegion = dailyAllowanceRepository.findByRegion(region);
-        if (dailyAllowanceByRegion.isPresent()) {
-            throw new RegionAlreadyExistsException(region);
+    public DailyAllowanceResponse findByRegion(final String region) {
+
+        Optional<DailyAllowance> dailyAllowance = dailyAllowanceRepository.findByRegion(region);
+
+        if(dailyAllowance.isPresent()){
+            return dailyAllowanceMapper.mapDailyAllowanceToDailyAllowanceResponse(dailyAllowance.get());
+        }else {
+            throw new DailyAllowanceNotFoundException(region);
         }
-        return dailyAllowanceByRegion.
     }
 
-    public DailyAllowance addDailyAllowance(final DailyAllowance dailyAllowance) {
-        return dailyAllowanceRepository.save(dailyAllowance);
+    public void addDailyAllowance(final DailyAllowanceResponse dailyAllowanceResponse) throws RegionAlreadyExistsException{
+
+        DailyAllowance da = dailyAllowanceMapper.mapDailyAllowanceResponseToDailyAllowance(dailyAllowanceResponse);
+        dailyAllowanceRepository.save(da);
     }
 
     public DailyAllowanceResponse findById(Long id) {
@@ -64,9 +69,20 @@ public class DailyAllowanceService {
         }
     }
 
-    public DailyAllowanceResponse updateDailyAllowance() {
+    public void deleteDailyAllowance(final Long id) throws DailyAllowanceNotFoundException {
+
+        try{
+           dailyAllowanceRepository.deleteById(id);
+        } catch(EmptyResultDataAccessException e) {
+            throw new DailyAllowanceNotFoundException(id);
+        }
     }
 
-    public void deleteDailyAllowance(Long id) {
+    public DailyAllowanceResponse updateDailyAllowance(final DailyAllowanceResponse newDailyAllowanceInfo, final Long id) throws RegionAlreadyExistsException {
+        DailyAllowance da = dailyAllowanceMapper.mapDailyAllowanceResponseToDailyAllowance(newDailyAllowanceInfo);
+
+        dailyAllowanceRepository.save(da);
+
+        return dailyAllowanceMapper.mapDailyAllowanceToDailyAllowanceResponse(da);
     }
 }

@@ -11,4 +11,7 @@ public class DailyAllowanceNotFoundException extends RuntimeException{
     public DailyAllowanceNotFoundException(final Long id) {
         super(MessageFormat.format("Error: {0} not found!", id));
     }
+    public DailyAllowanceNotFoundException(final String region) {
+        super(MessageFormat.format("Error: {0} not found!", region));
+    }
 }

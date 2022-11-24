@@ -80,10 +80,11 @@ public class DailyAllowanceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DailyAllowanceResponse> updateDailyAllowance(@RequestBody DailyAllowanceResponse dailyAllowanceResponse, @PathVariable Long id){
+    public ResponseEntity<DailyAllowanceResponse> updateDailyAllowance(@RequestBody DailyAllowanceResponse newDailyAllowanceInfo, @PathVariable Long id){
+
         DailyAllowanceResponse updatedDailyAllowance;
 
-        updatedDailyAllowance = dailyAllowanceService.updateDailyAllowance();
+        updatedDailyAllowance = dailyAllowanceService.updateDailyAllowance(newDailyAllowanceInfo, id);
 
         return ResponseEntity.ok().body(updatedDailyAllowance);
     }
